@@ -5,9 +5,13 @@ services:
     ports:
       - "8081:8081"
     environment:
+      - SPRING_DATASOURCE_USERNAME = root
+      - SPRING_DATASORCE_PASSWORD = supersecret
       - SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/testapp?autoReconnect=true&useSSL=false
         depends_on:
       - db
+     networks:
+      -backendNetwork
    
   db:
     image: mysql
@@ -18,4 +22,9 @@ services:
       - MYSQL_PASSWORD=supersecret
     ports:
       - "3306:3306"
+    networks:
+    -backendNetwork
+   
+ networks:
+ backendNetwork:
 
