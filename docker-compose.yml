@@ -3,23 +3,19 @@ services:
   server:
     image: demo
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/testapp?useSSL=false
-    networks:
-      - springmysql-net
-    depends_on:
-      - mysqldb
-
-  mysqldb:
+      - SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/testapp?autoReconnect=true&useSSL=false
+        depends_on:
+      - db
+   
+  db:
     image: mysql
-    networks:
-      - springmysql-net
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=employeedb
-      - MYSQL_USER=sa
-      - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=supersecret
+      - MYSQL_DATABASE=testapp
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=supersecret
+    ports:
+      - "3306:3306"
 
-networks:
-  springmysql-net:
